@@ -1,22 +1,18 @@
 def solve()
 	highest = 0
+	results = []
 	File.readlines('input.txt').each do |line|
 		line = line.strip
-		row_part = line[0..6]
-		col_part = line[-3..-1]
-		row = 0
-		row_part.each_char do |r|
-			row = row << 1 
-			row = row | (r == 'B' ? 1 : 0)
+		id = 0
+		line.each_char do |r|
+			id = id << 1 
+			id = id | (r == 'B' || r == 'R' ? 1 : 0)
 		end
-		col = 0
-		col_part.each_char do |c|
-	 		col = col << 1	
-			col = col | (c == 'R' ? 1 : 0)
-		end
-		res = (row << 3) + col
-		highest = res if res > highest
+		results << id
+		highest = id if id > highest
 	end
+	results = results.sort
+	results.each_with_index {|n, i| puts "found", n+1 if n+1 != results[i+1]}
 	highest
 end
 puts solve()
